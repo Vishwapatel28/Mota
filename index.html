@@ -415,91 +415,105 @@
 
         }
     </style>
+    <!-- //For authentication -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+
 </head>
 
 <body>
 
-
-    <div class="header">
-        <h1>🏢 MOTABHAI CLOTHING ATTENDANCE SYSTEM</h1>
-        <h3>Vadodara-Branch</h3>
-        <p>Daily Tracker - Attendance & Uppad</p>
+    <div id="loginBox" style="text-align:center;margin-top:60px;">
+        <h2>🔐 Login Required</h2>
+        <button onclick="googleLogin()" style="padding:12px 20px;font-size:16px;">
+            Sign in with Google
+        </button>
     </div>
 
+    <div id="app" style="display:none;">
+        <div class="header">
+            <h1>🏢 MOTABHAI CLOTHING ATTENDANCE SYSTEM</h1>
+            <h3>Vadodara-Branch</h3>
+            <p>Daily Tracker - Attendance & Uppad</p>
+        </div>
 
-    <div class="container">
-        <div class="card">
-            <!-- Date Selection -->
-            <div class="section-title">📅 Select Date</div>
-            <input type="date" id="dateInput" class="date-input">
 
-            <!-- Employee Attendance -->
-            <div class="section-title" style="margin-top: 25px;">👥 Employee Attendance</div>
-            <div id="employeeList">
-                <!-- Employees will be loaded here -->
-            </div>
+        <div class="container">
+            <div class="card">
+                <!-- Date Selection -->
+                <div class="section-title">📅 Select Date</div>
+                <input type="date" id="dateInput" class="date-input">
 
-            <!-- Bottle Entry (Like an Employee) -->
-            <div class="section-title" style="margin-top: 25px;">🍾 Bottles</div>
-            <div class="bottle-item">
-                <div class="bottle-icon">🍾</div>
-                <div class="bottle-name">Bottle Order</div>
-                <div class="bottle-controls">
-                    <button class="bottle-btn minus" onclick="updateBottles(-1)">−</button>
-                    <div class="bottle-count" id="bottleCount">0</div>
-                    <button class="bottle-btn plus" onclick="updateBottles(1)">+</button>
-                </div>
-            </div>
-
-            <!-- Add Uppad Button -->
-            <button class="add-uppad-btn" onclick="toggleUppadForm()">
-                💰 + Add Uppad (Advance)
-            </button>
-
-            <!-- Uppad Form (Hidden by default) -->
-            <div id="uppadFormSection" class="uppad-form hidden">
-                <div class="uppad-form-title">Add Advance/Uppad</div>
-
-                <div class="form-group">
-                    <label>Employee Name:</label>
-                    <select id="uppadEmployee" class="form-select">
-                        <option value="">-- Select Employee --</option>
-                    </select>
+                <!-- Employee Attendance -->
+                <div class="section-title" style="margin-top: 25px;">👥 Employee Attendance</div>
+                <div id="employeeList">
+                    <!-- Employees will be loaded here -->
                 </div>
 
-                <div class="form-group">
-                    <label>Amount (₹):</label>
-                    <input type="number" id="uppadAmount" class="form-input" placeholder="Enter amount">
+                <!-- Bottle Entry (Like an Employee) -->
+                <div class="section-title" style="margin-top: 25px;">🍾 Bottles</div>
+                <div class="bottle-item">
+                    <div class="bottle-icon">🍾</div>
+                    <div class="bottle-name">Bottle Order</div>
+                    <div class="bottle-controls">
+                        <button class="bottle-btn minus" onclick="updateBottles(-1)">−</button>
+                        <div class="bottle-count" id="bottleCount">0</div>
+                        <button class="bottle-btn plus" onclick="updateBottles(1)">+</button>
+                    </div>
                 </div>
 
-                <button class="submit-btn" style="background: #f59e0b; margin-top: 10px;" onclick="addUppadToList()">
-                    ✓ Add to List
+                <!-- Add Uppad Button -->
+                <button class="add-uppad-btn" onclick="toggleUppadForm()">
+                    💰 + Add Uppad (Advance)
                 </button>
 
-                <!-- Uppad List -->
-                <div id="uppadListContainer" class="hidden">
-                    <div class="uppad-form-title" style="margin-top: 20px;">Today's Uppad:</div>
-                    <div id="uppadList" class="uppad-list"></div>
+                <!-- Uppad Form (Hidden by default) -->
+                <div id="uppadFormSection" class="uppad-form hidden">
+                    <div class="uppad-form-title">Add Advance/Uppad</div>
+
+                    <div class="form-group">
+                        <label>Employee Name:</label>
+                        <select id="uppadEmployee" class="form-select">
+                            <option value="">-- Select Employee --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount (₹):</label>
+                        <input type="number" id="uppadAmount" class="form-input" placeholder="Enter amount">
+                    </div>
+
+                    <button class="submit-btn" style="background: #f59e0b; margin-top: 10px;"
+                        onclick="addUppadToList()">
+                        ✓ Add to List
+                    </button>
+
+                    <!-- Uppad List -->
+                    <div id="uppadListContainer" class="hidden">
+                        <div class="uppad-form-title" style="margin-top: 20px;">Today's Uppad:</div>
+                        <div id="uppadList" class="uppad-list"></div>
+                    </div>
                 </div>
+
+                <!-- Submit Button -->
+                <button class="submit-btn" onclick="submitData()">
+                    ✓ SUBMIT
+                </button>
+
+
+                <!-- Loader -->
+                <div id="loader" class="loader hidden"></div>
+
+
+                <!-- Success/Error Messages -->
+                <div id="messageContainer"></div>
             </div>
-
-            <!-- Submit Button -->
-            <button class="submit-btn" onclick="submitData()">
-                ✓ SUBMIT
-            </button>
-
-
-            <!-- Loader -->
-            <div id="loader" class="loader hidden"></div>
-
-
-            <!-- Success/Error Message -->
-            <div id="messageContainer"></div>
         </div>
     </div>
 
     <script>
-        
+        // const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiHUtJazOX_7I3aP9w79Ok-LZ3OgjMYQokbkZc3YcfqGsXGgc1eftUomggTNjrHY7g-Q/exec';
+
         let employees = [];
         let currentDate = new Date().toISOString().split('T')[0];
         let attendance = {}; // Will store: { "Dhanvil": "present", "Rahul": "absent" }
@@ -789,6 +803,46 @@
                 container.innerHTML = '';
             }, 3000);
         }
+
+        // Authentication Google 
+
+        const ALLOWED_EMAILS = [
+            "vishwagami111@gmail.com",
+            "vishwapatel660@gmail.com"
+        ];
+
+        // Auto login check
+        window.addEventListener("load", () => {
+            const savedEmail = localStorage.getItem("authEmail");
+            if (ALLOWED_EMAILS.includes(savedEmail)) {
+                document.getElementById("loginBox").style.display = "none";
+                document.getElementById("app").style.display = "block";
+            }
+        });
+
+        function googleLogin() {
+            google.accounts.id.initialize({
+                client_id: "70801928772-s5pr9crte2asuqicojimdtpr324rnpml.apps.googleusercontent.com",
+                callback: handleLogin
+            });
+
+            google.accounts.id.prompt();
+        }
+
+        function handleLogin(response) {
+            const payload = JSON.parse(atob(response.credential.split(".")[1]));
+            const email = payload.email;
+
+            if (ALLOWED_EMAILS.includes(email)) {
+                localStorage.setItem("authEmail", email);
+                document.getElementById("loginBox").style.display = "none";
+                document.getElementById("app").style.display = "block";
+            } else {
+                alert("❌ Access Denied");
+            }
+        }
+
+
     </script>
 </body>
 
