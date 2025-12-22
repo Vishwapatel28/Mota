@@ -434,7 +434,7 @@
         <div class="header">
             <h1>🏢 MOTABHAI CLOTHING ATTENDANCE SYSTEM</h1>
             <h3>Vadodara-Branch</h3>
-            <p>Daily Tracker - Attendance & Uppad</p>
+            <p>Daily Tracker - ttendance & Uppad</p>
         </div>
 
 
@@ -496,9 +496,8 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button class="submit-btn" onclick="submitData()">
-                    ✓ SUBMIT
-                </button>
+                <button id="mainSubmitBtn" class="submit-btn" onclick="submitData()">✓ SUBMIT</button>
+
 
 
                 <!-- Loader -->
@@ -713,7 +712,7 @@
 
         // Submit all data to Google Sheets
         async function submitData() {
-            const submitBtn = document.querySelector('.submit-btn');
+            const submitBtn = document.getElementById('mainSubmitBtn');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
             document.getElementById('loader').classList.remove('hidden');
