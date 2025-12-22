@@ -512,7 +512,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiHUtJazOX_7I3aP9w79Ok-LZ3OgjMYQokbkZc3YcfqGsXGgc1eftUomggTNjrHY7g-Q/exec';
+        // const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiHUtJazOX_7I3aP9w79Ok-LZ3OgjMYQokbkZc3YcfqGsXGgc1eftUomggTNjrHY7g-Q/exec';
 
         let employees = [];
         let currentDate = new Date().toISOString().split('T')[0];
@@ -521,54 +521,16 @@
         let uppadData = {}; // Will store: { "Dhanvil": 500, "Rahul": 0 }
 
         // Initialize on page load
-        window.onload = async function () {
+        window.onload = function () {
             document.getElementById('dateInput').value = currentDate;
-            await loadEmployees();
-            await checkDateStatus();
-            await checkMissedDates();
+            loadEmployees();
         };
 
-        async function checkDateStatus() {
-            const res = await fetch(
-                `${SCRIPT_URL}?action=checkDate&date=${currentDate}`
-            );
-            const data = await res.json();
-
-            const btn = document.querySelector(".submit-btn");
-
-            if (data.submitted) {
-                btn.disabled = true;
-                btn.textContent = "Already Submitted for this Date";
-                showMessage("⚠ Attendance already submitted for this date", "error");
-            } else {
-                btn.disabled = false;
-                btn.textContent = "✓ SUBMIT";
-            }
-        }
-
-
         // Update date when changed
-        document.getElementById('dateInput').addEventListener('change', async function () {
+        document.getElementById('dateInput').addEventListener('change', function () {
             currentDate = this.value;
             resetForm();
-            await checkDateStatus();
         });
-
-        async function checkMissedDates() {
-            const res = await fetch(
-                `${SCRIPT_URL}?action=getMissedDates&today=${currentDate}`
-            );
-            const data = await res.json();
-
-            if (data.missed.length > 0) {
-                alert(
-                    "⚠ Attendance missing for:\n\n" +
-                    data.missed.map(d => "• " + d).join("\n") +
-                    "\n\n(Visible only for 3 days)"
-                );
-            }
-        }
-
 
         // Load employees from Google Sheets
         async function loadEmployees() {
