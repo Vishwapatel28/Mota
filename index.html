@@ -512,7 +512,7 @@
     </div>
 
     <script>
-        // const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiHUtJazOX_7I3aP9w79Ok-LZ3OgjMYQokbkZc3YcfqGsXGgc1eftUomggTNjrHY7g-Q/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiHUtJazOX_7I3aP9w79Ok-LZ3OgjMYQokbkZc3YcfqGsXGgc1eftUomggTNjrHY7g-Q/exec';
 
         let employees = [];
         let currentDate = new Date().toISOString().split('T')[0];
@@ -754,14 +754,28 @@
 
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    //mode: 'no-cors',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(dataToSubmit)
                 });
 
+                const result = await response.json();
+
+                if (result.success === false) {
+                    showMessage("⚠ Already submitted for this date", "error");
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "Already Submitted";
+                    document.getElementById('loader').classList.add('hidden');
+                    return; // ⛔ YAHIN FUNCTION STOP
+                }
+
+
                 showMessage('✓ Data Submitted Successfully!', 'success');
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Already Submitted";
+
 
                 // Reset after 2 seconds
                 setTimeout(() => {
