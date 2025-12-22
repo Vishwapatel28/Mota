@@ -434,7 +434,7 @@
         <div class="header">
             <h1>🏢 MOTABHAI CLOTHING ATTENDANCE SYSTEM</h1>
             <h3>Vadodara-Branch</h3>
-            <p>Daily Tracker - ttendance & Uppad</p>
+            <p>Daily Tracker - attendance & Uppad</p>
         </div>
 
 
@@ -808,12 +808,23 @@
                 attendance[emp.name] = null;
                 uppadData[emp.name] = 0;
             });
+
             bottleCount = 0;
             document.getElementById('bottleCount').textContent = '0';
-            document.getElementById('uppadFormSection').classList.add('hidden');
+
+            document.getElementById('uppadEmployee').value = '';
+            document.getElementById('uppadAmount').value = '';
             document.getElementById('uppadListContainer').classList.add('hidden');
+            document.getElementById('uppadList').innerHTML = '';
+
+            // ✅ RESET SUBMIT BUTTON (MOST IMPORTANT)
+            const submitBtn = document.getElementById('mainSubmitBtn');
+            submitBtn.disabled = false;
+            submitBtn.textContent = '✓ SUBMIT';
+
             renderEmployeeList();
         }
+
 
         // Show success/error message
         function showMessage(message, type) {
