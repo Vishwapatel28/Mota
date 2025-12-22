@@ -713,7 +713,7 @@
 
         // Submit all data to Google Sheets
         async function submitData() {
-            const submitBtn = event.target;
+            const submitBtn = document.querySelector('.submit-btn');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
             document.getElementById('loader').classList.remove('hidden');
@@ -778,9 +778,9 @@
 
 
                 // Reset after 2 seconds
-                setTimeout(() => {
-                    resetForm();
-                }, 2000);
+                // setTimeout(() => {
+                //     resetForm();
+                // }, 2000);
 
             } catch (error) {
                 console.error('Error submitting data:', error);
@@ -789,8 +789,8 @@
                     resetForm();
                 }, 2000);
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = '✓ SUBMIT ALL DATA';
+                // submitBtn.disabled = false;
+                // submitBtn.textContent = '✓ SUBMIT ALL DATA';
                 document.getElementById('loader').classList.add('hidden');
 
             }
