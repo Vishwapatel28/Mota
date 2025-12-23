@@ -416,21 +416,26 @@
         }
     </style>
     <!-- //For authentication -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
 
 
 </head>
 
 <body>
 
-    <div id="loginBox" style="text-align:center;margin-top:60px;">
+    <!-- <div id="loginBox" style="text-align:center;margin-top:60px;">
         <h2>🔐 Login Required</h2>
         <button onclick="googleLogin()" style="padding:12px 20px;font-size:16px;">
             Sign in with Google
         </button>
-    </div>
+    </div> -->
 
-    <div id="app" style="display:none;">
+
+    <!-- ----------------
+    Niche div mae sae   style="display:none;" remove to show direct our UI ok  <div id="app"> iskae nadr thaa
+    ------------------- -->
+
+    <div id="app">
         <div class="header">
             <h1>🏢 MOTABHAI CLOTHING ATTENDANCE SYSTEM</h1>
             <h3>Vadodara-Branch</h3>
@@ -835,45 +840,45 @@
             }, 3000);
         }
 
-        // Authentication Google 
+        // Authentication Google ----------------------------------------_PART------------------------------------
 
-        const ALLOWED_EMAILS = [
-            "vishwagami111@gmail.com",
-            "vishwapatel660@gmail.com",
-            "gyash5750@gmail.com",
-            "mehulbhutka9999@gmail.com"
-        ];
+        // const ALLOWED_EMAILS = [
+        //     "vishwagami111@gmail.com",
+        //     "vishwapatel660@gmail.com",
+        //     "gyash5750@gmail.com",
+        //     "mehulbhutka9999@gmail.com"
+        // ];
 
         // Auto login check
-        window.addEventListener("load", () => {
-            const savedEmail = localStorage.getItem("authEmail");
-            if (ALLOWED_EMAILS.includes(savedEmail)) {
-                document.getElementById("loginBox").style.display = "none";
-                document.getElementById("app").style.display = "block";
-            }
-        });
+        // window.addEventListener("load", () => {
+        //     const savedEmail = localStorage.getItem("authEmail");
+        //     if (ALLOWED_EMAILS.includes(savedEmail)) {
+        //         document.getElementById("loginBox").style.display = "none";
+        //         document.getElementById("app").style.display = "block";
+        //     }
+        // });
 
-        function googleLogin() {
-            google.accounts.id.initialize({
-                client_id: "70801928772-s5pr9crte2asuqicojimdtpr324rnpml.apps.googleusercontent.com",
-                callback: handleLogin
-            });
+        // function googleLogin() {
+        //     google.accounts.id.initialize({
+        //         client_id: "70801928772-s5pr9crte2asuqicojimdtpr324rnpml.apps.googleusercontent.com",
+        //         callback: handleLogin
+        //     });
 
-            google.accounts.id.prompt();
-        }
+        //     google.accounts.id.prompt();
+        // }
 
-        function handleLogin(response) {
-            const payload = JSON.parse(atob(response.credential.split(".")[1]));
-            const email = payload.email;
+        // function handleLogin(response) {
+        //     const payload = JSON.parse(atob(response.credential.split(".")[1]));
+        //     const email = payload.email;
 
-            if (ALLOWED_EMAILS.includes(email)) {
-                localStorage.setItem("authEmail", email);
-                document.getElementById("loginBox").style.display = "none";
-                document.getElementById("app").style.display = "block";
-            } else {
-                alert("❌ Access Denied");
-            }
-        }
+        //     if (ALLOWED_EMAILS.includes(email)) {
+        //         localStorage.setItem("authEmail", email);
+        //         document.getElementById("loginBox").style.display = "none";
+        //         document.getElementById("app").style.display = "block";
+        //     } else {
+        //         alert("❌ Access Denied");
+        //     }
+        // }
 
 
     </script>
